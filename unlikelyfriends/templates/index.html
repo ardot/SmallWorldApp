@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load staticfiles %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static "img/apple-touch-icon-57x57.png"%}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static "img/apple-touch-icon-114x114.png"%}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static "img/apple-touch-icon-72x72.png"%}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static "img/apple-touch-icon-144x144.png"%}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static "img/apple-touch-icon-60x60.png"%}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static "img/apple-touch-icon-120x120.png"%}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static "img/apple-touch-icon-76x76.png"%}">
+<link rel="apple-touch-icon" sizes="152x152" href="{% static "img/apple-touch-icon-152x152.png"%}">
+<link rel="icon" type="image/png" href="{% static "img/favicon-196x196.png" %}" sizes="196x196">
+<link rel="icon" type="image/png" href="{% static "img/favicon-160x160.png" %}" sizes="160x160">
+<link rel="icon" type="image/png" href="{% static "img/favicon-96x96.png" %}" sizes="96x96">
+<link rel="icon" type="image/png" href="{% static "img/favicon-16x16.png" %}" sizes="16x16">
+<link rel="icon" type="image/png" href="{% static "img/favicon-32x32.png" %}" sizes="32x32">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="msapplication-TileImage" content="{% static "img/mstile-144x144.png"%}">
+
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <title> Small World App </title>
+    <div id="fb-root"></div>
+    <!--FACEBOOK SDK -->
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=686875978043083";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script> 
+    <link href="{% static "css/bootstrap-responsive.min.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "css/jumbotron-narrow.css" %}" rel="stylesheet" type="text/css">
+    <script src="{% static "js/bootstrap.js" %}" type="text/javascript"></script>
+    <link href="{% static "css/DT_bootstrap.css" %}" rel="stylesheet" type="text/css">
+    <script src="{% static "js/jquery.dataTables.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/DT_bootstrap.js" %}" type="text/javascript"></script>
+<style>
+     table {
+        table-layout: fixed;
+        word-wrap: break-word;
+     }
+    </style>
+  </head>
+  
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="/how">How It Works</a></li>
+        </ul>
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="#">Home</a></li>
+        </ul>
+        <h2 class="text-muted"> The Small World App</br><small>#smallworld</small></h2>
+      </div>
+      
+      <div class="jumbotron">
+        <h1>It's a small world...</h1>
+        <p class="lead">
+          Find the friendships that you didn't know about
+        </p>
+        {% if output %}
+        <p>
+          <table class="table table-striped">
+            {% for o in output %}
+            
+            <tr id="tr{{forloop.counter}}"  
+                {% if forloop.counter > 20 %}
+                  style="display:none"
+                {% endif %}>
+              <td width="10%">
+                <h2> #{{forloop.counter}} </h2>
+              </td>
+              <td width="8%">
+                <img class="img-rounded" src="{{ o.picture_one }}" alt="friend_one"/>
+              </td>
+              <td width="18%">
+                 <h5> {{ o.friend_one }} </h5>
+              </td>
+              <td width="15%">
+                <p> </br> is friends with... </p>
+              </td>
+              <td width="7%">
+                <img class="img-rounded" src="{{ o.picture_two }}" alt="friend_two"/>
+
+              </td>
+              <td width="18%">
+                <h5> {{ o.friend_two }} </h5>
+              </td>
+              <td width="16%">
+                <p> <b> Unexpectedness:</b> {{ o.coefficient }} </p>
+              </td>
+            <tr>   
+          {% endfor %}
+          </table>
+        </p>
+        <p>
+          <a id="more">
+            Show more!
+          </a>
+          <a id="less" style="display:none">
+            Show less!
+          </a>
+        </p>
+        {% else %}
+        <p>
+          <a id="find" class="btn btn-lg btn-warning" href="#" role="button">Find Now!</a>
+        </p>
+        <p>
+          <img id="loading" style="display:none" src="{% static "img/005.gif" %}" alt="loading"/>
+        </p>
+        <p id="patient" style="display:none">
+          (Be patient, this can take a few minutes)
+        </p>
+        {% endif %}
+     </div>
+
+      <div class="row marketing">
+      </div>  
+      <div class="footer">
+        <p><a href="how/"> How it works </a></p>
+        <p>© Timothy E. Lenardo 2014</p>
+      </div>
+      <form id="oauth" method="POST">{% csrf_token %}
+        <input type="hidden" id="token" name="title" value=""/>
+      </form>
+    </div> <!-- /container -->
+    <script>
+        
+       /*$("#less").click(function() {
+         for(var i = 21; i < 100; i++){
+           var name = "#tr" + i;
+           $(name).css('display','none');
+           $("#less").css('display','none');
+           $("#more").css('display','');
+         }
+       });*/
+       var num = 30;
+       $("#more").click(function() {
+        if (num > 100) {
+          $("#more").css('display','none');
+        }
+        else {
+          for(var i = 21; i < num; i++){
+             var name = "#tr" + i;
+             num = num + 10;
+             $(name).css('display','');
+           }
+        }
+       }); 
+       $( "#find" ).click(function() {
+         FB.login(function(response) {
+          if (response.authResponse) {
+            var token = response.authResponse.accessToken;
+            console.log(token);
+            $("#token").val(token);
+            $("#find").css('display', 'none');
+            $("#loading").css('display', '');
+            $("#patient").css('display', '');  
+            $("#oauth").submit();
+          } 
+        });
+       });
+    </script> 
+  </body>
+</html>
+
